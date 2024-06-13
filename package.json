@@ -42,5 +42,12 @@
   },
   "devDependencies": {
     "gh-pages": "^6.1.1"
+  },
+  {
+    "homepage": "http://{Ahmedsalah000}.github.io/{client}",
+    "scripts": {
+      "predeploy": "npm run build",
+      "deploy": "gh-pages -d build"
+    }
   }
 }
