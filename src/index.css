@@ -1,62 +1,170 @@
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
-}
-.color-body {
+  font-family: Arial, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   height: 100vh;
-  background-color: #f8f8f8;
-}
-.font {
-  font-family: "Almarai", sans-serif;
-  font-size: 15px;
+  background: linear-gradient(135deg, #4caf50, #2196f3, #ffeb3b, #f44336);
+  background-size: 400% 400%;
+  animation: gradient 15s ease infinite;
+  color: #333;
+  overflow: hidden; /* To avoid scrolling on the body */
 }
 
+@keyframes gradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
 
+.container {
+  width: 80%;
+  max-width: 800px;
+  background-color: rgba(255, 255, 255, 0.7);
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  overflow-y: auto; /* Ensure scrollability */
+  max-height: 80vh; /* Limit height to ensure scroll */
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.container::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.container {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.animation-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  margin-bottom: 20px;
+  position: sticky;
+  top: 0;
+  background-color: rgba(255, 255, 255, 0.9); /* Background color to avoid content overlap */
+  padding: 10px;
+  z-index: 1000; /* Ensure it's on top */
+}
+
+.letter {
+  font-size: 50px;
+  font-weight: bold;
+  margin: 0 5px;
+  transition: transform 0.5s ease, opacity 0.5s ease;
+}
+
+#letter-m {
+  color: #4caf50; /* MongoDB green */
+  transform: rotate(20deg) translateX(-10px);
+}
+
+#letter-e {
+  color: #2196f3; /* Express blue */
+  transform: skewX(20deg) translateY(-10px);
+}
+
+#letter-r {
+  color: #ffeb3b; /* React yellow */
+  transform: rotate(-15deg) translateX(10px);
+}
+
+#letter-n {
+  color: #f44336; /* Node.js red */
+  transform: scaleX(-1) translateY(10px); /* Flip horizontally */
+}
+
+.animation-container:hover #letter-m {
+  color: #066c08; /* MongoDB green */
+  transform: rotate(0) translateX(0);
+}
+
+.animation-container:hover #letter-e {
+  color: #1c1f22; /* Express black */
+  transform: skewX(0) translateY(0);
+}
+
+.animation-container:hover #letter-r {
+  color: #00ddff; /* Express blue */
+  transform: rotate(0) translateX(0);
+}
+
+.animation-container:hover #letter-n {
+  color: #55e359; /* MongoDB green */
+  transform: scaleX(1) translateY(0);
+}
+
+h1 {
+  margin-top: 20px;
+  font-size: 24px;
+  color: #333;
+}
+
+textarea {
+  resize: none;
+}
+
+.username-box {
+  display: inline-block;
+  padding: 2px 5px;
+  border-radius: 3px;
+  margin-left: 10px;
+  font-size: 14px;
+  color: #fff;
+}
+
+.accordion-body {
+  background-color: #f9f9f9;
+  border-radius: 5px;
+  padding: 15px;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.accordion-body .d-flex {
+  flex-direction: column;
+  gap: 10px;
+}
+
+.accordion-body .username-box {
+  align-self: flex-start;
+}
 .btn-color {
+  background-color: #4caf50; /* MongoDB green */
+  color: #fff;
   border: none;
-  border-radius: 8px;
-  color: white;
-  background-color: #224f61;
-  padding: 8px;
-}
-.btn-color:hover {
-  color: rgb(148, 148, 162);
-}
-
-.img-avatar {
-  height: 60px;
-  width: 60px;
-  border-radius: 50%;
-}
-
-.mt-0 {
-  margin-top: 0;
-}
-
-.font-decription {
-  color: #8c8c8c;
-  font-family: Almarai;
+  padding: 10px 20px;
   font-size: 16px;
   font-weight: bold;
-  letter-spacing: 0;
-  line-height: 20px;
-  text-align: right;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
-.font-title {
-  font-family: Almarai;
-  font-size: 21px;
-  font-weight: bold;
-  letter-spacing: 0;
-  line-height: 28px;
-  text-align: right;
+.btn-color:hover {
+  background-color: #45a049; /* Darker green */
+  transform: translateY(-2px);
+}
+
+.btn-color:active {
+  background-color: #3e8e41; /* Even darker green */
+  transform: translateY(0);
+}
+.answer-box {
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin: 10px 0;
+  text-align: center;
+  font-size: 16px;
+  line-height: 1.5;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
 }

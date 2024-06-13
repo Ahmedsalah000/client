@@ -1,83 +1,71 @@
-import { Container, Row, Col } from 'react-bootstrap'
-import React, { useState, useEffect } from 'react'
-import FormInput from './components/FormInput'
-import QAList from './components/QAList'
+import React, { useState, useEffect } from 'react';
+import { Container, Row, Col } from 'react-bootstrap';
+import FormInput from './components/inputs';
+import QAList from './components/Q&A';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import apiClient from '../src/Api/apiClient'
 
-function App() {
-  const [data, setData] = useState([])
+const App = () => {
+    const [data, setData] = useState([]);
 
-  useEffect(() => {
-    const fetchQuestions = async () => {
-      const { data } = await apiClient.get('/api/questions');
-      setData(data);
+    useEffect(() => {
+        const fetchQuestions = async () => {
+            try {
+                const res = await apiClient.get('/api/questions');
+                setData(res.data);
+            } catch (error) {
+                console.error('Failed to fetch questions', error);
+            }
+        };
+        fetchQuestions();
+    }, [data]);
+
+    const addItem = async (newQuestion) => {
+        try {
+            const res = await apiClient.post('/api/questions', newQuestion);
+            setData([...data, res.data.data]);
+        } catch (error) {
+            console.error('Failed to add question', error);
+        }
     };
 
-    fetchQuestions();
-  }, []);
+    // const deleteOneItem = async (ID) => {
+    //     try {
+    //         await axios.delete(`/api/questions/${ID}`);
+    //         setData(data.filter((item) => item.id !== ID));
+    //     } catch (error) {
+    //         console.error('Failed to delete question', error);
+    //     }
+    // };
 
-  const addItem = (newQuestion) => {
-    setData([...data, newQuestion]);
-  }
+    const notify = (message, type) => {
+        if (type === "Error") toast.error(message);
+        else if (type === "Success") toast.success(message);
+    };
 
-  const deleteAllItems = async () => {
-    try {
-      await apiClient.delete('/api/questions'); // تعديل للسماح بحذف جميع العناصر
-      setData([]);
-      notify("تم حذف الكل بنجاح", "Success");
-    } catch (error) {
-      notify("حدث خطأ أثناء حذف الكل", "Error");
-    }
-  }
-
-  const deleteOneItem = async (id) => {
-    try {
-      await apiClient.delete(`api/questions/${id}`);
-      const newData = data.filter((item) => item._id !== id);
-      setData(newData);
-      notify("تم حذف السؤال بنجاح", "Success");
-      if (newData.length <= 0) {
-        deleteAllItems();
-      }
-    } catch (error) {
-      notify("حدث خطأ أثناء حذف السؤال", "Error");
-    }
-  }
-
-  const notify = (message, type) => {
-    if (type === "Error")
-      toast.error(message)
-    else if (type === "Success")
-      toast.success(message)
-  };
-
-  return (
-    <div className="font text-center color-body">
-      <Container className="p-5">
-        <div className="fs-3 text-center py-2">
-          <h3>M</h3>
-          <h3>E</h3>
-          <h3>R</h3>
-          <h3>N</h3>
+    return (
+        <div className="font text-center color-body">
+            <Container className="p-5">
+                <div className="container">
+                    <div className="animation-container">
+                        <span className="letter" id="letter-m">M</span>
+                        <span className="letter" id="letter-e">E</span>
+                        <span className="letter" id="letter-r">R</span>
+                        <span className="letter" id="letter-n">N</span>
+                    </div>
+                    <h1>{data.length} MERN Stack Interview Q&A</h1>
+                    <Row className="justify-content-center">
+                        <Col sm="12">
+                            <FormInput onAdd={addItem} notify={notify} />
+                            <QAList data={data} />
+                        </Col>
+                    </Row>
+                    <ToastContainer />
+                </div>
+            </Container>
         </div>
-        <Row className="justify-content-center">
-          <Col sm="4">
-            <div className="fs-3 text-center py-2">اسئله واجوبه شائعه</div>
-          </Col>
-          <Col sm="8">
-            <FormInput onAdd={addItem} notify={notify} />
-            <QAList data={data} deleteOneItem={deleteOneItem} />
-            {
-              data.length > 0 && (<button onClick={deleteAllItems} className="btn-color w-100 my-3">مسح الكل</button>)
-            }
-          </Col>
-        </Row>
-        <ToastContainer />
-      </Container>
-    </div>
-  );
-}
+    );
+};
 
 export default App;
